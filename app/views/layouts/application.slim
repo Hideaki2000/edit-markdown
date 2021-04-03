@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    title RERU
+    meta[name="viewport" content="width=device-width,initial-scale=1"]
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    /= render "layouts/favicon"
+    link[rel="stylesheet" href="https://rsms.me/inter/inter.css"]
+    script[src="https://cdn.jsdelivr.net/gh/alpine-collective/alpine-magic-helpers@0.6.x/dist/component.min.js"]
+    script[src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer]
+    = stylesheet_pack_tag "application", media: 'all', "data-turbo-track": "reload"
+  body.h-screen
+    = render 'layouts/navbar'
+    div class="md:flex flex-col md:flex-row md:min-h-screen w-full pt-1"
+      = render 'layouts/sidebar'
+      main.w-full
+        = render 'layouts/flash'
+        = render 'layouts/header'
+        /div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8"
+        = yield

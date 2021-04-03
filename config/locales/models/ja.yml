@@ -1,0 +1,16 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+    attributes:
+      user:
+        id: ID
+        uid: ユーザーID
+        username: 名前
+        is_mail_confirm: メール確認フラグ
+        email: メールアドレス
+        avatar: プロフィール画像
+        password: パスワード
+  attributes:
+    created_at: 作成日
+    updated_at: 更新日

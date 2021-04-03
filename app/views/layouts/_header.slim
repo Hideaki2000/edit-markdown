@@ -1,0 +1,12 @@
+header class="bg-gray-50 shadow"
+  div class="max-w-8xl mx-auto py-4 px-4 sm:px-6 lg:px-8"
+    h1 class="text-xl font-semibold text-gray-800"
+      - if content_for?(:title)
+        = yield(:title)
+      - else
+        .flex
+          = image_tag "kao.jpeg", alt: 'demo', class: 'w-10 h-10 rounded-full'
+          p.my-auto.pl-3 Kao 花王株式会社
+          .ml-auto.mr-0.my-auto
+            = select_tag(:day, options_for_select(['今日']), class: 'w-20 h-8 rounded-sm text-sm text-pink-400 mr-4')
+            = select_tag(:day, options_for_select(['共有']), class: 'w-20 h-8 rounded-sm text-sm text-white bg-pink-400')

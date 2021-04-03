@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title サインイン - RERU
+    meta[name="viewport" content="width=device-width,initial-scale=1"]
+    = csrf_meta_tags
+    = csp_meta_tag
+    /= render "layouts/favicon"
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    link[rel="stylesheet" href="https://rsms.me/inter/inter.css"]
+    script[src="https://cdn.jsdelivr.net/gh/alpine-collective/alpine-magic-helpers@0.6.x/dist/component.min.js"]
+    script[src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer]
+    = stylesheet_pack_tag "application", media: 'all', "data-turbo-track": "reload"
+  body[class="min-h-screen items-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"]
+    p.mx-auto.text-center ロゴ
+    = yield
