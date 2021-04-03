@@ -49,8 +49,8 @@ $ gem i bundler
 git clone ~~
 ```
 
-config/master.keyがignore配下なので、@gonzaemonからもらう。
-LineやSlackで連絡。
+config/master.keyがignore配下なので、backlogからダウンロード
+https://reru.backlog.com/wiki/ADMARKETING_SAAS/Main+%E3%83%90%E3%83%83%E3%82%AF%E3%82%A8%E3%83%B3%E3%83%89+README.md
 
 #### Gemのインストール
 ```bash
