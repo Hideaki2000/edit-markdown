@@ -28,39 +28,28 @@ Redis
 ### 環境構築
 
 (前提)
--  rbenvを入れてる
 - docker for macが入っている
-- yarnが入っている
 
 
-#### Ruby 3.0をインストール
-```bash
-$ rbenv install 3.0.0
-```
-
-#### Bundlerをインストール
-```bash
-$ gem i bundler
-```
 
 #### clone
 
 ```bash
 git clone ~~
 ```
-
+#### packageのダウンロード
+```bash
+docker-compose build
+docker-compose run --rm reru_rails  bash
+yarn install
+exit
+```
+### 動作確認
+```bash
+docker-compose up
+```
 config/master.keyがignore配下なので、backlogからダウンロード
 https://reru.backlog.com/wiki/ADMARKETING_SAAS/Main+%E3%83%90%E3%83%83%E3%82%AF%E3%82%A8%E3%83%B3%E3%83%89+README.md
-
-#### Gemのインストール
-```bash
-$ bundle install -j4
-```
-
-#### フロントエンドのpackageをインストール
-```bash
-$ yarn
-```
 
 #### docker-compose up
 
