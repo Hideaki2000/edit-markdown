@@ -1,6 +1,6 @@
 # inherit_from: .rubocop_todo.yml
 AllCops:
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 3.0
   Exclude:
     - 'app/frontend/**/*'
     - 'bin/**/*'
@@ -11,6 +11,7 @@ AllCops:
     - 'spec/rails_helper.rb'
     - 'vendor/**/*'
     - 'docs/**/*'
+    - 'lib/tasks/auto_annotate_models.rake'
 
 Style/Documentation:
   Enabled: false

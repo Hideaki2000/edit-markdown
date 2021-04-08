@@ -57,9 +57,9 @@ jobs:
           name: RSpec Test
           command: bundle exec rspec spec/.
 
-      # - run:
-      #     name: ESlint
-      #     command: yarn lint
+      - run:
+          name: ESlint
+          command: yarn lint
 
       # - run:
       #     name: Jest
