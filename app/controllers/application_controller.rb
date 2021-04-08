@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_action :ensured_sign_in
   include ::ApplicationHelper
+  include Pundit
 
   def current_user
     @current_user ||= ::User.find_by(uid: cookies[:uid])
