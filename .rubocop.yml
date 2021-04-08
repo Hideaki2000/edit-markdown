@@ -1,0 +1,74 @@
+# inherit_from: .rubocop_todo.yml
+AllCops:
+  TargetRubyVersion: 2.6
+  Exclude:
+    - 'app/frontend/**/*'
+    - 'bin/**/*'
+    - 'db/**/*'
+    - 'node_modules/**/*'
+    - 'spec/factories/**/*'
+    - 'spec/spec_helper.rb'
+    - 'spec/rails_helper.rb'
+    - 'vendor/**/*'
+    - 'docs/**/*'
+
+Style/Documentation:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/AsciiComments:
+  Enabled: false
+Metrics/BlockLength:
+  Exclude:
+    - Gemfile
+    - config/**/*
+    - spec/**/*
+    - lib/tasks/**/*
+Metrics/AbcSize:
+  Max: 35
+  Exclude:
+    - app/workers/**/*
+    - app/operators/**/*
+Metrics/MethodLength:
+  CountComments: false  # count full line comments?
+  Max: 15
+  Exclude:
+    - app/operators/**/*
+    - app/services/**/*
+    - app/workers/**/*
+    - app/helpers/cms/patients_helper.rb
+# 分岐の数。ガード句を多用しているとデフォルト 7 だと厳しい
+Metrics/PerceivedComplexity:
+  Max: 15
+Metrics/CyclomaticComplexity:
+  Max: 15
+Style/GuardClause:
+  MinBodyLength: 5
+Lint/MissingSuper:
+  Exclude:
+    - app/services/**/*
+    - app/operators/**/*
+Style/SymbolProc:
+  Exclude:
+    - app/mailers/**/*
+Layout/SpaceBeforeComment:
+  Exclude:
+    - app/mailers/**/*
+Layout/LineLength:
+  Max: 140
+  Exclude:
+    - 'lib/tasks/db/dump_all.rake'
+    - 'app/form_builders/**/*'
+Lint/AssignmentInCondition:
+  Exclude:
+    - app/services/**/*
+    - app/operators/**/*
+Naming/PredicateName:
+  Exclude:
+    - app/models/intervention_report.rb
+Naming/MemoizedInstanceVariableName:
+  Exclude:
+    - app/controllers/cms/patients_controller.rb
+Metrics/ClassLength:
+  Exclude:
+    - app/controllers/**/*

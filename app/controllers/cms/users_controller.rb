@@ -3,8 +3,6 @@ module Cms
     layout 'layouts/session_layout'
     protect_from_forgery
 
-    def new
-      
-    end
+    def new; end
   end
 end
