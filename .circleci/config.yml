@@ -1,0 +1,66 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/circleci-demo-ruby-rails
+    docker:
+      - image: circleci/ruby:3.0.0-node
+      - image: circleci/mysql:5.7.31-ram
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+          MYSQL_HOST: "127.0.0.1"
+          MYSQL_ROOT_HOST: "%"
+          MYSQL_USER: "root"
+      - image: circleci/redis
+    steps:
+      - checkout
+
+      - run:
+          name: COPY .env file
+          command: touch .env && cp circleci.env .env
+
+      - run:
+          name: COPY database.yml file
+          command: cp config/database.circleci.yml config/database.yml
+
+      - restore_cache:
+          key: cache-bundle-{{ checksum "Gemfile.lock" }}
+
+      - run: bundle install -j4 --path vendor/bundle
+
+      - save_cache:
+          key: cache-bundle-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      - restore_cache:
+          key: cache-yarn-{{ checksum "yarn.lock" }}
+      - run: yarn
+      - save_cache:
+          key: cache-yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+
+
+      - run:
+          name: DB create RAILS_ENV=test
+          command: bundle exec rails db:create RAILS_ENV=test
+
+      - run:
+          name: DB migrate RAILS_ENV=test
+          command: bundle exec rails db:migrate RAILS_ENV=test
+
+      - run:
+          name: Rubocop style check
+          command: bundle exec rubocop -c .rubocop.yml
+
+      - run:
+          name: RSpec Test
+          command: bundle exec rspec spec/.
+
+      - run:
+          name: ESlint
+          command: yarn lint
+
+      # - run:
+      #     name: Jest
+      #     command: yarn test

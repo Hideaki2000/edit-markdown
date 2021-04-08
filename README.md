@@ -78,4 +78,12 @@ $ bin/webpack-dev-server
 ```
 
 
+---
+
+### docker-composeでbundle install errorでrailsコンテナが立ち上がらない場合
+
+```bash
+$ docker-compose run --rm reru_rails bundle install -j4
+```
+
 
