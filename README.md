@@ -1,5 +1,9 @@
 # README
 
+開発の前に、以下を一読すること！
+
+https://rerureru.backlog.com/wiki/ADMARKETING_SAAS/Rails+%E9%96%8B%E7%99%BA%E3%81%AE%E6%B5%81%E3%82%8C
+
 **使用言語**
 
 - Ruby 3.0
