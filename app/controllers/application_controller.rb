@@ -5,12 +5,10 @@ class ApplicationController < ActionController::Base
   include Pundit
 
   def current_user
-    unless defined?(@current_user)
-      if access_token
-        @current_user = Confirmation::User.logged_in?(access_token)
-      else
-        false
-      end
+    if access_token
+      @current_user ||= Confirmation::User.logged_in?(access_token)
+    else
+      false
     end
   end
   helper_method :current_user

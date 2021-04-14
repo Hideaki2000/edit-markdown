@@ -73,11 +73,11 @@ module Confirmation
     end
 
     # validation all times
-    validate :is_email_has_property_appropriate_format
+    validate :email_has_property_appropriate_format?
     validate :account_type_format
     # validation when create
-    validate :is_email_has_property_appropriate_format, on: :create
-    validate :is_email_unique, on: :create
+    validate :email_has_property_appropriate_format?, on: :create
+    validate :email_unique?, on: :create
     validate :password_has_properry_format, on: :create
     validate :password_did_not_match_confirmation, on: :create
     # validation when update
@@ -86,16 +86,15 @@ module Confirmation
     # validation method
     # validation of email (error code 10*)
 
-    def is_email_nil
+    def email_nil?
       errors.add(:email, { code: 100, message: 'email is nil' }) if email.nil?
     end
 
-    def is_email_has_property_appropriate_format
-      email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+    def email_has_property_appropriate_format?
       errors.add(:email, { code: 101, message: 'email is not appropriate format' }) unless Constants::VALID_EMAIL_REGEX === email
     end
 
-    def is_email_unique
+    def email_unique?
       errors.add(:email, { code: 102, message: 'email alreadey exist' }) if self.class.exists?(email: email)
     end
 
@@ -106,7 +105,7 @@ module Confirmation
     # validation of password (error code 11*)
     def password_has_properry_format
       password_regex = /\A(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)\w{6,12}\z/
-      unless password_regex === password
+      unless password_regex.match?(password)
         errors.add(:password,
                    { code: 110, message: 'パスワードは半角6~12文字英大文字・小文字・数字それぞれ１文字以上含む必要があります' })
       end

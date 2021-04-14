@@ -6,7 +6,7 @@ module Confirmation
       end
 
       # this method is for test
-      def is_extend?
+      def extend?
         true
       end
 
