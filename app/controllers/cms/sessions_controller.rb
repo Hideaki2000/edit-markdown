@@ -1,31 +1,26 @@
-class SessionsController < ActionController::Base
+class Cms::SessionsController < Cms::ApplicationController
   layout 'layouts/session_layout'
   protect_from_forgery
+  skip_before_action :ensured_sign_in, only: %i[new create]
 
   def new
-    @user = ::User.new
+    @user = Confirmation::User.new
   end
 
   def create
-    @user = ::User.find_by(email: session_params[:email])
-
+    @current_user=nil
+    @user=Confirmation::User.authenticate(session_params[:email],session_params[:password])
     email_invalid and return unless @user.present?
-
-    if @user&.authenticate(session_params[:password])
-      cookies.permanent[:uid] = @user.uid
-      redirect_to root_path, flash: { info: 'ログインに成功しました。' }
-    else
-      password_invalid
-    end
+    cookie.permanent[:access_token]=@user.activate
+    redirect_to root_path, flash: { info: 'ログインに成功しました。' }
   end
 
   def destroy
-    cookies.delete :uid
+    cookies.delete :access_token
     redirect_to new_session_path
   end
 
   private
-
   def session_params
     params.require(:user).permit(
       :email,
@@ -34,13 +29,13 @@ class SessionsController < ActionController::Base
   end
 
   def email_invalid
-    @user = ::User.new
+    @user = Confirmation::User.new
     flash.now[:danger] = 'メールアドレスが間違っています。'
     render :new
   end
 
   def password_invalid
-    @user = ::User.new
+    @user = Confirmation::User.new
     flash.now[:danger] = 'メールアドレスが間違っています。'
     render :new
   end

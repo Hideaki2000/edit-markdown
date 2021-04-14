@@ -1,0 +1,35 @@
+= javascript_pack_tag 'hello_typescript'
+= react_component("ChartHeader", { title: "広告効果グラフ" })
+.grid.grid-cols-2.gap-4
+  .p-8
+    canvas(id="myChart" height="280")
+  .p-8
+    p.text-gray-400 商品別提供数の詳細 > モイスチャーシャンプー
+    .grid.grid-cols-2.gap-4.py-6
+      = react_component("ProductData", { column: "総提供数", value: '2867' })
+      = react_component("ProductData", { column: "総提供数", value: '2867' })
+      = react_component("ProductData", { column: "総提供数", value: '2867' })
+      = react_component("ProductData", { column: "総提供数", value: '2867' })
+.p-8
+  = render 'table'
+
+script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"
+javascript:
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var chart = new Chart(ctx, {
+      // The type of chart we want to create
+      type: 'line',
+      data: {
+          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+          datasets: [{
+              label: 'My First dataset',
+              backgroundColor: 'rgba(244, 114, 182, 0.2)',
+              borderColor: 'rgba(244, 114, 182, 0.6)',
+              data: [0, 10, 5, 2, 20, 30, 45]
+          }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+  });

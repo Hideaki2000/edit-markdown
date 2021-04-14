@@ -5,11 +5,26 @@ class ApplicationController < ActionController::Base
   include Pundit
 
   def current_user
-    @current_user ||= ::User.find_by(uid: cookies[:uid])
+    unless defined?(@current_user)
+      if access_token
+        @current_user=Confirmation::User.logged_in?(access_token)
+      else
+        false
+      end
+    end
   end
   helper_method :current_user
 
+  def current_user=(user)
+    @current_user = user
+  end
+
+  # this method have to change in future
   def ensured_sign_in
-    redirect_to new_session_path and return unless current_user.present?
+    redirect_to new_admin_user_path unless current_user
+  end
+
+  def access_token
+    raise NotImplementedError.new("You must implement #{self.class}##{__method__}")
   end
 end

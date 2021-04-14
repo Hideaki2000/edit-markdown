@@ -10,18 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_02_155242) do
+ActiveRecord::Schema.define(version: 2021_04_11_104701) do
 
-  create_table "users", charset: "utf8mb4", collation: "utf8mb4_bin", comment: "ユーザー", force: :cascade do |t|
-    t.string "name", default: "", null: false, comment: "名前"
-    t.string "email", default: "", null: false, comment: "メールアドレス"
-    t.string "password_digest", default: "", null: false, comment: "パスワード"
-    t.string "uid", default: "", null: false, comment: "ユニークID"
-    t.boolean "is_mail_confirm", default: false, null: false, comment: "メール確認フラグ"
+  create_table "api_keys", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.string "access_token"
+    t.datetime "expire_at"
+    t.bigint "user_id"
+    t.boolean "active"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["uid"], name: "index_users_on_uid", unique: true
+    t.index ["user_id"], name: "index_api_keys_on_user_id"
   end
 
+  create_table "authentications", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "provider", null: false
+    t.string "uid", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["provider", "uid"], name: "index_authentications_on_provider_and_uid"
+    t.index ["user_id"], name: "index_authentications_on_user_id"
+  end
+
+  create_table "users", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.string "email", null: false
+    t.string "crypted_password"
+    t.string "salt"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "account_type"
+    t.index ["email"], name: "index_users_on_email", unique: true
+  end
 end
