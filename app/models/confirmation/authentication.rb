@@ -14,6 +14,8 @@
 #  index_authentications_on_provider_and_uid  (provider,uid)
 #  index_authentications_on_user_id           (user_id)
 #
-class Confirmation::Authentication < ApplicationRecord
-  belongs_to :user
+module Confirmation
+  class Authentication < ApplicationRecord
+    belongs_to :user
+  end
 end

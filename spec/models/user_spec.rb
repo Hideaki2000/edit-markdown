@@ -51,7 +51,7 @@ RSpec.describe Confirmation::User, type: :model do
       expect(@user.errors.messages[:email][0][:code]).to eq(102)
     end
 
-    example 'アカウントタイプのフォーマットについて'do
+    example 'アカウントタイプのフォーマットについて' do
       @user.save
       @user = Confirmation::User.find_by(email: 'hogehoge@gmail.com')
       @user.account_type = 'jifjie'
@@ -69,7 +69,7 @@ RSpec.describe Confirmation::User, type: :model do
     end
   end
   context 'AccountTypeのextendsが上手くか' do
-      example 'アカウントを見つけた時に正常にextendsされるのか' do
+    example 'アカウントを見つけた時に正常にextendsされるのか' do
       @user.save
       @user = Confirmation::User.find_by(email: 'hogehoge@gmail.com')
       expect(@user.provider_name).to eq('line')
@@ -79,7 +79,7 @@ RSpec.describe Confirmation::User, type: :model do
     context 'authenticateメソッドの動きが上手く動いているのか' do
       example '通常のログイン時' do
         @user.save
-        confirmed_user=Confirmation::User.authenticate('hogehoge@gmail.com','Hogehoge1')
+        confirmed_user = Confirmation::User.authenticate('hogehoge@gmail.com', 'Hogehoge1')
         expect(@user.email).to eq(confirmed_user.email)
       end
 

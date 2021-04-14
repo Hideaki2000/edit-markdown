@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   def current_user
     unless defined?(@current_user)
       if access_token
-        @current_user=Confirmation::User.logged_in?(access_token)
+        @current_user = Confirmation::User.logged_in?(access_token)
       else
         false
       end
@@ -15,9 +15,7 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
 
-  def current_user=(user)
-    @current_user = user
-  end
+  attr_writer :current_user
 
   # this method have to change in future
   def ensured_sign_in
@@ -25,6 +23,6 @@ class ApplicationController < ActionController::Base
   end
 
   def access_token
-    raise NotImplementedError.new("You must implement #{self.class}##{__method__}")
+    raise NotImplementedError, "You must implement #{self.class}##{__method__}"
   end
 end
