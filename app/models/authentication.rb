@@ -14,8 +14,8 @@
 #  index_authentications_on_oauth_id          (oauth_id)
 #  index_authentications_on_provider_and_uid  (provider,uid)
 #
-module Confirmation
-  class Authentication < ApplicationRecord
-    belongs_to :user
-  end
+# このクラスの説明
+# lineログインをするときに使うmodel
+class Authentication < ApplicationRecord
+  belongs_to :user
 end
