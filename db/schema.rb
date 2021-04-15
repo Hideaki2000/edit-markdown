@@ -35,10 +35,9 @@ ActiveRecord::Schema.define(version: 2021_04_11_104701) do
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest"
-    t.string "accout_type"
+    t.string "account_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "account_type"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

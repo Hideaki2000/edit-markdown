@@ -79,8 +79,8 @@ RSpec.describe Confirmation::User, type: :model do
     context 'authenticateメソッドの動きが上手く動いているのか' do
       example '通常のログイン時' do
         @user.save
-        @user=Confirmation::User.find_by(email: @user.email)
-        confirmed_user =@user.authenticate('Hogehoge1')
+        @user = Confirmation::User.find_by(email: @user.email)
+        confirmed_user = @user.authenticate('Hogehoge1')
         expect(@user.email).to eq(confirmed_user.email)
       end
 

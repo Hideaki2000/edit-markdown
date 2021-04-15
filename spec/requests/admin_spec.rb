@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Admins', type: :request do
-  describe 'GET /index' do
-    pending "add some examples (or delete) #{__FILE__}"
-  end
-
   describe '新しいアカウントを作る' do
     before(:example) do
       @user = { confirmation_user: {

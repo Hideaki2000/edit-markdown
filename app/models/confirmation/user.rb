@@ -4,7 +4,6 @@
 #
 #  id              :bigint           not null, primary key
 #  account_type    :string(255)
-#  accout_type     :string(255)
 #  email           :string(255)      not null
 #  password_digest :string(255)
 #  created_at      :datetime         not null
@@ -19,7 +18,7 @@ module Confirmation
   class User < ApplicationRecord
     # relationship
     has_many :api_key
-    
+
     has_secure_password
     # attribute
     attribute :password_confirmation
@@ -68,6 +67,7 @@ module Confirmation
     end
 
     private
+
     def api_key
       @api_key ||= Confirmation::ApiKey.find_by_user_id(id)
     end
