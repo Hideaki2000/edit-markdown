@@ -4,12 +4,12 @@ module Admin
     protect_from_forgery
     skip_before_action :ensured_sign_in, only: %i[new create]
     def new
-      @user = Confirmation::User.new
+      @user = Oauth.new
     end
 
     def create
       params[:confirmation_user][:account_type] = 'admin'
-      @user = Confirmation::User.new(user_params)
+      @user = Oauth.new(user_params)
       if @user.valid?
         @user.save
         cookies.permanent[:access_token] = @user.activate

@@ -1,18 +1,16 @@
-module Confirmation
-  module AccountType
-    module BasicUser
-      def self.included(klass)
-        klass.has_one :authentication
-      end
+module Confirmation::AccountType::BasicUser
+  extend ActiveSupport::Concern
+  included do
+    has_one :authentication
+  end
 
-      # this method is for test
-      def extend?
-        true
-      end
-
-      def provider_name
-        'line'
-      end
+  def provider_name
+    'line'
+  end
+  
+  class_methods do
+    def extend?
+      true
     end
   end
 end

@@ -1,14 +1,12 @@
-module Confirmation
-  module AccountType
-    module Company
-      def self.included(klass)
-        klass.has_one :authentication
-      end
-
-      # this method is for test
-      def extend?
-        true
-      end
+module Confirmation::AccountType::Company
+  extend ActiveSupport::Concern
+  included do
+    has_one :authentication
+  end
+  
+  class_methods do
+    def extend?
+      true
     end
   end
 end

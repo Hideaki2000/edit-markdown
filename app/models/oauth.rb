@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: users
+# Table name: oauths
 #
 #  id              :bigint           not null, primary key
 #  account_type    :string(255)
@@ -11,11 +11,10 @@
 #
 # Indexes
 #
-#  index_users_on_email  (email) UNIQUE
+#  index_oauths_on_email  (email) UNIQUE
 #
-module Confirmation
   # this class is for authentication
-  class User < ApplicationRecord
+  class Oauth < ApplicationRecord
     # relationship
     has_many :api_key
 
@@ -135,4 +134,3 @@ module Confirmation
       errors.add(:account_type, { code: 122, message: 'account_type cannot change' }) if account_type_changed?
     end
   end
-end

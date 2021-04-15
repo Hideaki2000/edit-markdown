@@ -5,12 +5,12 @@ module Cms
     skip_before_action :ensured_sign_in, only: %i[new create]
 
     def new
-      @user = Confirmation::User.new
+      @user = Oauth.new
     end
 
     def create
       @current_user = nil
-      @user = Confirmation::User.authenticate(session_params[:email], session_params[:password])
+      @user = Oauth.authenticate(session_params[:email], session_params[:password])
       email_invalid and return unless @user.present?
 
       cookie.permanent[:access_token] = @user.activate
@@ -32,13 +32,13 @@ module Cms
     end
 
     def email_invalid
-      @user = Confirmation::User.new
+      @user = Oauth.new
       flash.now[:danger] = 'メールアドレスが間違っています。'
       render :new
     end
 
     def password_invalid
-      @user = Confirmation::User.new
+      @user = Oauth.new
       flash.now[:danger] = 'メールアドレスが間違っています。'
       render :new
     end

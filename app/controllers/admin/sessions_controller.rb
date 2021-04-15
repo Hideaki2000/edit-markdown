@@ -5,11 +5,11 @@ module Admin
     skip_before_action :ensured_sign_in, only: %i[new create]
 
     def new
-      @user = Confirmation::User.new
+      @user = Oauth.new
     end
 
     def create
-      @user = Confirmation::User.find_by(session_params[:email])
+      @user = Oauth.find_by(session_params[:email])
       # ユーザーが存在してないかった時
       email_invalid and return unless @user.present?
 
@@ -33,13 +33,13 @@ module Admin
     end
 
     def email_invalid
-      @user = Confirmation::User.new
+      @user = Oauth.new
       flash.now[:danger] = 'メールアドレスが間違っています。'
       render :new
     end
 
     def password_invalid
-      @user = Confirmation::User.new
+      @user = Oauth.new
       flash.now[:danger] = 'メールアドレスが間違っています。'
       render :new
     end

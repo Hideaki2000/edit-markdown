@@ -12,7 +12,7 @@ RSpec.describe 'Admins', type: :request do
     context '正常なアカウント登録' do
       example '正常にアカウントを作ることができるか' do
         post admin_users_path, params: @user
-        expect(Confirmation::User.exists?(email: 'hogehoge@gmail.com')).to eq(true)
+        expect(Oauth.exists?(email: 'hogehoge@gmail.com')).to eq(true)
       end
     end
   end

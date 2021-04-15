@@ -15,9 +15,9 @@
 #  index_users_on_email  (email) UNIQUE
 #
 require 'rails_helper'
-RSpec.describe Confirmation::User, type: :model do
+RSpec.describe Oauth, type: :model do
   before(:example) do
-    @user = Confirmation::User.new(
+    @user = Oauth.new(
       email: 'hogehoge@gmail.com',
       password: 'Hogehoge1',
       password_confirmation: 'Hogehoge1',
@@ -42,7 +42,7 @@ RSpec.describe Confirmation::User, type: :model do
     end
     example '同じアカウントを作らない' do
       @user.save
-      @user = Confirmation::User.new(
+      @user = Oauth.new(
         email: 'hogehoge@gmail.com',
         password: 'Hogehoge1',
         password_confirmation: 'Hogehoge1'
@@ -53,7 +53,7 @@ RSpec.describe Confirmation::User, type: :model do
 
     example 'アカウントタイプのフォーマットについて' do
       @user.save
-      @user = Confirmation::User.find_by(email: 'hogehoge@gmail.com')
+      @user = Oauth.find_by(email: 'hogehoge@gmail.com')
       @user.account_type = 'jifjie'
       @user.save
       expect(@user.errors.messages[:account_type][0][:code]).to eq(121)
@@ -62,7 +62,7 @@ RSpec.describe Confirmation::User, type: :model do
   context 'アカウントの更新について' do
     example 'account_typeの変更不可' do
       @user.save
-      @user = Confirmation::User.find_by(email: 'hogehoge@gmail.com')
+      @user = Oauth.find_by(email: 'hogehoge@gmail.com')
       @user.account_type = 'admin'
       @user.save
       expect(@user.errors.messages[:account_type][0][:code]).to eq(122)
@@ -71,7 +71,7 @@ RSpec.describe Confirmation::User, type: :model do
   context 'AccountTypeのextendsが上手くか' do
     example 'アカウントを見つけた時に正常にextendsされるのか' do
       @user.save
-      @user = Confirmation::User.find_by(email: 'hogehoge@gmail.com')
+      @user = Oauth.find_by(email: 'hogehoge@gmail.com')
       expect(@user.provider_name).to eq('line')
     end
   end
@@ -79,7 +79,7 @@ RSpec.describe Confirmation::User, type: :model do
     context 'authenticateメソッドの動きが上手く動いているのか' do
       example '通常のログイン時' do
         @user.save
-        @user = Confirmation::User.find_by(email: @user.email)
+        @user = Oauth.find_by(email: @user.email)
         confirmed_user = @user.authenticate('Hogehoge1')
         expect(@user.email).to eq(confirmed_user.email)
       end

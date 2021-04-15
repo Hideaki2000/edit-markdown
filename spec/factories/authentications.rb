@@ -7,12 +7,12 @@
 #  uid        :string(255)      not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  user_id    :bigint           not null
+#  oauth_id   :bigint           not null
 #
 # Indexes
 #
+#  index_authentications_on_oauth_id          (oauth_id)
 #  index_authentications_on_provider_and_uid  (provider,uid)
-#  index_authentications_on_user_id           (user_id)
 #
 FactoryBot.define do
   factory :authentication do

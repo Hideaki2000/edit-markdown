@@ -14,21 +14,21 @@
 #  index_users_on_email  (email) UNIQUE
 #
 FactoryBot.define do
-  factory :basic_user, class: Confirmation::User do
+  factory :basic_user, class: Oauth do
     sequence(:email) { |n| "test-basic-user#{n}@example.com" }
     password { 'Password1' }
     password_confirmation { 'Password1' }
     account_type { 'basic' }
   end
 
-  factory :company, class: Confirmation::User do
+  factory :company, class: Oauth do
     sequence(:email) { |n| "test-company#{n}@example.com" }
     password { 'Password1' }
     password_confirmation { 'Password1' }
     account_type { 'company' }
   end
 
-  factory :admin, class: Confirmation::User do
+  factory :admin, class: Oauth do
     sequence(:email) { |n| "test-admin#{n}@example.com" }
     password { 'Password1' }
     password_confirmation { 'Password1' }

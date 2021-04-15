@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   def current_user
     if access_token
-      @current_user ||= Confirmation::User.logged_in?(access_token)
+      @current_user ||= Oauth.logged_in?(access_token)
     else
       false
     end

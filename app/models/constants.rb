@@ -14,5 +14,7 @@ module Constants
         basic_user cms_user admin
       ].freeze
     end
+    module ErrorMessage
+    end
   end
 end
