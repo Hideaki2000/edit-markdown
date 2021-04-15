@@ -46,7 +46,6 @@ gem 'sentry-ruby'
 gem 'sidekiq'
 gem 'slack-ruby-client'
 gem 'slim-rails'
-gem 'sorcery'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
 

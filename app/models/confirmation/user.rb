@@ -2,24 +2,25 @@
 #
 # Table name: users
 #
-#  id               :bigint           not null, primary key
-#  account_type     :string(255)
-#  crypted_password :string(255)
-#  email            :string(255)      not null
-#  salt             :string(255)
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
+#  id              :bigint           not null, primary key
+#  account_type    :string(255)
+#  accout_type     :string(255)
+#  email           :string(255)      not null
+#  password_digest :string(255)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 # Indexes
 #
 #  index_users_on_email  (email) UNIQUE
 #
 module Confirmation
+  # this class is for authentication
   class User < ApplicationRecord
     # relationship
     has_many :api_key
-    # this class is for authentication
-    authenticates_with_sorcery!
+    
+    has_secure_password
     # attribute
     attribute :password_confirmation
     # after_initialize
@@ -67,7 +68,6 @@ module Confirmation
     end
 
     private
-
     def api_key
       @api_key ||= Confirmation::ApiKey.find_by_user_id(id)
     end

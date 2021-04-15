@@ -9,10 +9,10 @@ module Admin
     end
 
     def create
-      @current_user = nil
-      @user = Confirmation::User.authenticate(session_params[:email], session_params[:password])
+      @user = Confirmation::User.find_by(session_params[:email])
+      # ユーザーが存在してないかった時
       email_invalid and return unless @user.present?
-
+      @user = @user.authenticate(session_params[:password])
       cookies.permanent[:access_token] = @user.activate
       redirect_to admin_home_index_path, flash: { info: 'ログインに成功しました。' }
     end
