@@ -22,14 +22,14 @@ ActiveRecord::Schema.define(version: 2021_04_11_104701) do
     t.index ["oauth_id"], name: "index_api_keys_on_oauth_id"
   end
 
-  create_table "authentications", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+  create_table "line_auths", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.bigint "oauth_id", null: false
     t.string "provider", null: false
     t.string "uid", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["oauth_id"], name: "index_authentications_on_oauth_id"
-    t.index ["provider", "uid"], name: "index_authentications_on_provider_and_uid"
+    t.index ["oauth_id"], name: "index_line_auths_on_oauth_id"
+    t.index ["provider", "uid"], name: "index_line_auths_on_provider_and_uid"
   end
 
   create_table "oauths", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|

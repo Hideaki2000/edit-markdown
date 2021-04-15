@@ -13,7 +13,6 @@
 #
 #  index_oauths_on_email  (email) UNIQUE
 #
-# this class is for authentication
 class Oauth < ApplicationRecord
   # relationship
   has_many :api_key

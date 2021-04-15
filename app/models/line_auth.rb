@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: authentications
+# Table name: line_auths
 #
 #  id         :bigint           not null, primary key
 #  provider   :string(255)      not null
@@ -11,11 +11,9 @@
 #
 # Indexes
 #
-#  index_authentications_on_oauth_id          (oauth_id)
-#  index_authentications_on_provider_and_uid  (provider,uid)
+#  index_line_auths_on_oauth_id          (oauth_id)
+#  index_line_auths_on_provider_and_uid  (provider,uid)
 #
-# このクラスの説明
-# lineログインをするときに使うmodel
-class Authentication < ApplicationRecord
+class LineAuth < ApplicationRecord
   belongs_to :user
 end
