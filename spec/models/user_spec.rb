@@ -32,13 +32,13 @@ RSpec.describe Oauth, type: :model do
     example 'password_confirmationとpasswordの値が違う' do
       @user.password_confirmation = 'hoge'
       @user.save
-      expect(@user.errors.messages[:password][0][:code]).to eq(111)
+      expect(@user.errors.messages[:password][0]).to eq(Constants::Oauth::Validation::Password::DO_NOT_CHANGE)
     end
     example 'passwordが不正' do
       @user.password = 'hoge'
       @user.password_confirmation = 'hoge'
       @user.save
-      expect(@user.errors.messages[:password][0][:code]).to eq(110)
+      expect(@user.errors.messages[:password][0]).to eq(Constants::Oauth::Validation::Password::FORMAT)
     end
     example '同じアカウントを作らない' do
       @user.save
@@ -48,24 +48,40 @@ RSpec.describe Oauth, type: :model do
         password_confirmation: 'Hogehoge1'
       )
       @user.save
-      expect(@user.errors.messages[:email][0][:code]).to eq(102)
+      expect(@user.errors.messages[:email][0]).to eq(Constants::Oauth::Validation::Email::UNIQUE)
     end
 
-    example 'アカウントタイプのフォーマットについて' do
+    example 'アカウントタイプのフォーマットがあっているか' do
       @user.save
       @user = Oauth.find_by(email: 'hogehoge@gmail.com')
       @user.account_type = 'jifjie'
       @user.save
-      expect(@user.errors.messages[:account_type][0][:code]).to eq(121)
+      expect(@user.errors.messages[:account_type][0]).to eq(Constants::Oauth::Validation::AccountType::DID_NOT_CHANGE)
     end
   end
-  context 'アカウントの更新について' do
+  describe 'アカウントの更新について' do
     example 'account_typeの変更不可' do
       @user.save
       @user = Oauth.find_by(email: 'hogehoge@gmail.com')
-      @user.account_type = 'admin'
-      @user.save
-      expect(@user.errors.messages[:account_type][0][:code]).to eq(122)
+      @user.update(account_type: Constants::Oauth::AccountType::ADMIN)
+      expect(@user.errors.messages[:account_type][0]).to eq(Constants::Oauth::Validation::AccountType::DID_NOT_CHANGE)
+    end
+    context 'emailの変更について' do
+      example '正常' do
+        @user.save
+        @user = Oauth.find_by(email: 'hogehoge@gmail.com')
+        @user.update(email: 'hogehoge1@gmail.com')
+        @user.save
+        expect(@user.valid?).to eq(true)
+      end
+
+      example 'formatが違う' do
+        @user.save
+        @user = Oauth.find_by(email: 'hogehoge@gmail.com')
+        @user.update(email: 'hfkefefijei')
+        @user.save
+        expect(@user.errors.messages[:email][0]).to eq(Constants::Oauth::Validation::Email::FORMAT)
+      end
     end
   end
   context 'AccountTypeのextendsが上手くか' do
@@ -88,8 +104,6 @@ RSpec.describe Oauth, type: :model do
         @user.save
         expect(@user.authenticate('Hogehoge2')).to eq(false)
       end
-    end
-    context 'ログインの時について' do
     end
   end
 end

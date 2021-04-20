@@ -15,5 +15,5 @@
 #  index_line_auths_on_provider_and_uid  (provider,uid)
 #
 class LineAuth < ApplicationRecord
-  belongs_to :user
+  belongs_to :oauth
 end

@@ -6,10 +6,9 @@ module Cms
     def new; end
 
     def create
-      params[:account_type] = 'cms_user'
+      params[:account_type] = Constants::Oauth::AccountType::CMS_USER
       @user = Oauth.new(user_params)
       cookie.permanent[:access_token] = @user.activate
-      redirect_to
     end
 
     private

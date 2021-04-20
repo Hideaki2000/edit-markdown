@@ -18,7 +18,6 @@
 class ApiKey < ApplicationRecord
   before_create :generate_access_token, :set_expiration, :set_active
   belongs_to :user
-
   def before_expired?
     DateTime.now < expire_at
   end

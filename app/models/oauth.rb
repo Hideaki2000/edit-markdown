@@ -13,24 +13,24 @@
 #
 #  index_oauths_on_email  (email) UNIQUE
 #
+# このクラスの説明
+# 基本的なパスワードの認証
+
 class Oauth < ApplicationRecord
   # relationship
-  has_many :api_key
-
+  has_one :api_key
   has_secure_password
   # attribute
   attribute :password_confirmation
-  # after_initialize
+  # after_initialize 認証の際にaccount_typeによる、細かい処理の違いをここで実装する
   after_initialize do
     case account_type
-    when Constants::User::AccountType::BASIC_USER
+    when Constants::Oauth::AccountType::BASIC_USER
       extend AccountType::BasicUser
-    when Constants::User::AccountType::CMS_USER
+    when Constants::Oauth::AccountType::CMS_USER
       extend AccountType::Company
-    when Constants::User::AccountType::ADMIN
+    when Constants::Oauth::AccountType::ADMIN
       extend AccountType::Admin
-    else
-      errors.add(:account_type, { code: 120, message: 'not include account_type' })
     end
   end
   # define the function for authentication
@@ -71,65 +71,50 @@ class Oauth < ApplicationRecord
   end
 
   # validation all times
+  validates :email, presence: true
   validate :email_has_property_appropriate_format?
-  validate :account_type_format
+  validates :account_type, presence: true
   # validation when create
-  validate :email_has_property_appropriate_format?, on: :create
   validate :email_unique?, on: :create
   validate :password_has_properry_format, on: :create
   validate :password_did_not_match_confirmation, on: :create
   # validation when update
   validate :do_not_change_account_type, on: :update
-  validate :do_not_change_email, on: :update
   # validation method
   # validation of email (error code 10*)
-
-  def email_nil?
-    errors.add(:email, { code: 100, message: 'email is nil' }) if email.nil?
-  end
-
   def email_has_property_appropriate_format?
-    errors.add(:email, { code: 101, message: 'email is not appropriate format' }) unless Constants::VALID_EMAIL_REGEX === email
+    errors.add(:email, message: Constants::Oauth::Validation::Email::FORMAT) unless Constants::Oauth::VALID_EMAIL_REGEX === email
   end
 
   def email_unique?
-    errors.add(:email, { code: 102, message: 'email alreadey exist' }) if self.class.exists?(email: email)
+    errors.add(:email, Constants::Oauth::Validation::Email::UNIQUE) if self.class.exists?(email: email)
   end
 
   def do_not_change_email
-    errors.add(:account_type, { code: 103, message: 'email cannot change' }) if email_changed?
+    errors.add(:email, Constants::Oauth::Validation::Email::DO_NOT_CHANGE) if email_changed?
   end
 
   # validation of password (error code 11*)
   def password_has_properry_format
-    password_regex = /\A(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)\w{6,12}\z/
-    unless password_regex.match?(password)
-      errors.add(:password,
-                 { code: 110, message: 'パスワードは半角6~12文字英大文字・小文字・数字それぞれ１文字以上含む必要があります' })
-    end
+    errors.add(:password, message: Constants::Oauth::Validation::Password::FORMAT) unless Constants::Oauth::PASSWORD_REGEX.match?(password)
   end
 
   def password_did_not_match_confirmation
-    if password != password_confirmation
-      errors.add(:password,
-                 { code: 111,
-                   message: 'password did not match password_confirmation' })
-    end
+    errors.add(:password, message: Constants::Oauth::Validation::Password::DO_NOT_CHANGE) if password != password_confirmation
   end
 
   # validation of account_type(eror code 12*)
   def account_type_nil
-    errors.add(:account_type, { code: 120, message: 'account type cannot be nil' }) if account_type.nil?
+    errors.add(:account_type, message: Constants::Oauth::Validation::AccountType::PRESENCE) if account_type.nil?
   end
 
   def account_type_format
-    unless Constants::User::AccountType::ACCOUNT_TYPES.include?(account_type)
-      errors.add(:account_type,
-                 { code: 121, message: 'invalid account type' })
+    unless Constants::Oauth::AccountType::ACCOUNT_TYPES.include?(account_type)
+      errors.add(:account_type, message: Constants::Oauth::Validation::AccountType::FORMAT)
     end
   end
 
   def do_not_change_account_type
-    errors.add(:account_type, { code: 122, message: 'account_type cannot change' }) if account_type_changed?
+    errors.add(:account_type, Constants::Oauth::Validation::AccountType::DID_NOT_CHANGE) if account_type_changed?
   end
 end
